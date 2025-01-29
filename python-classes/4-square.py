@@ -12,7 +12,7 @@ and public instance method."""
 
     @property
     def size(self):
-        return(self.__size)
+        return (self.__size)
 
     @size.setter
     def size(self, value):
@@ -24,4 +24,4 @@ and public instance method."""
 
     def area(self):
         """calculates and returns current square area"""
-        return(self.__size * self.__size)
+        return (self.__size * self.__size)
