@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intérprete BASIC en línea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Escribe tu código BASIC</h1>
+    <textarea id="basic-code">
+10 PRINT "Hola Mundo"
+20 INPUT "¿Cuál es tu nombre? "; NOMBRE$
+30 PRINT "Hola, "; NOMBRE$
+40 END
+    </textarea>
+    <br>
+    <button onclick="runBasic()">Ejecutar</button>
+    <h2>Resultado:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        // Intérprete básico de BASIC
+        function runBasic() {
+            const code = document.getElementById("basic-code").value.split("\n");
+            const output = document.getElementById("output");
+            output.innerText = ""; // Limpiar la salida anterior
+            let variables = {};
+
+            // Función para ejecutar una línea de código
+            function execute(line) {
+                if (line.startsWith("PRINT ")) {
+                    // Imprimir texto en pantalla
+                    const text = line.substring(6).replace(/"/g, "").trim();
+                    output.innerText += text + "\n";
+                } else if (line.startsWith("INPUT ")) {
+                    // Solicitar entrada al usuario
+                    const varName = line.split(";")[1].trim();
+                    const promptText = line.split(";")[0].substring(6).replace(/"/g, "").trim();
+                    const userInput = prompt(promptText);
+                    variables[varName] = userInput;
+                } else if (line.includes("=")) {
+                    // Asignación de variables
+                    const [varName, value] = line.split("=").map(s => s.trim());
+                    variables[varName] = value.replace(/"/g, "");
+                } else if (line.startsWith("IF ") && line.includes(" THEN ")) {
+                    // Condicional IF
+                    const [condition, command] = line.split(" THEN ");
+                    const evalCondition = condition.substring(3).trim();
+                    if (eval(evalCondition)) execute(command.trim());
+                }
+            }
+
+            // Ejecutar el código línea por línea
+            for (const line of code) {
+                const cleanedLine = line.replace(/^\d+ /, ""); // Quitar número de línea
+                execute(cleanedLine);
+            }
+        }
+    </script>
+
+</body>
+</html>
