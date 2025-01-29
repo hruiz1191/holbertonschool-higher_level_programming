@@ -16,4 +16,4 @@ and public instance method."""
 
     def area(self):
         """calculates and returns current square area"""
-        return(self.__size * self.__size)
+        return (self.__size * self.__size)
