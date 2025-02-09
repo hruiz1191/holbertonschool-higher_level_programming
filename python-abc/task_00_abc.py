@@ -1,18 +1,24 @@
 #!/usr/bin/python3
+"""Abstract classes"""
+
+
 from abc import ABC, abstractmethod
 
-
 class Animal(ABC):
+    """Abstract class named Animal"""
+    
     @abstractmethod
     def sound(self):
         pass
-
-
+    
 class Dog(Animal):
+    """Animal Dog"""
+    
     def sound(self):
-        print("bark")
-
-
+        return "Bark"
+    
 class Cat(Animal):
+    """Animal Cat"""
+    
     def sound(self):
-        print("meow")
+        return "Meow"
