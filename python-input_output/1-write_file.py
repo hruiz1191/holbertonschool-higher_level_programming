@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-"""This program writes a file using python"""
+"""This program writes a string to a file using Python."""
 
 
 def write_file(filename="", text=""):
-    """Reads a text file (UTF8) and prints its content to stdout."""
+    """Writes a string to a text file (UTF8) and returns the number of characters written."""
     with open(filename, "w", encoding="utf-8") as file:
-        file.write(text)
+        return file.write(text)
