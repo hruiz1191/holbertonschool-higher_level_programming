@@ -1,4 +1,4 @@
-#!/usr/bin/pythom3
+#!/usr/bin/python3
 """This program writes a file using python"""
 
 
