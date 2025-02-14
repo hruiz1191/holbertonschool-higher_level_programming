@@ -1,16 +1,18 @@
 #!/usr/bin/python3
-"""This script adds all command-line arguments to a list and saves them to a file."""
+"""Script that adds command-line arguments to a list and saves them to a file."""
 
 import sys
 import os
 
-# Importamos usando __import__() pero sin los números en el nombre del archivo
-save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
-load_from_json_file = __import__('6-load_from_json_file').load_from_json_file
+# Importamos usando __import__() para evitar problemas con nombres numéricos.
+save_to_json_file = __import__(
+    '5-save_to_json_file').save_to_json_file
+load_from_json_file = __import__(
+    '6-load_from_json_file').load_from_json_file
 
 filename = "add_item.json"
 
-# Si el archivo existe, lo cargamos. Si no, creamos una lista vacía.
+# Si el archivo existe, lo cargamos; si no, usamos una lista vacía.
 if os.path.exists(filename):
     my_list = load_from_json_file(filename)
 else:
