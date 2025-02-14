@@ -23,7 +23,7 @@ if os.path.exists(filename):
 else:
     my_list = []
 
-# Agregamos los argumentos de la línea de comandos (excepto el nombre del script).
+# argumentos de la línea de comandos (excepto el nombre del script).
 my_list.extend(sys.argv[1:])
 
 # Guardamos la lista actualizada en el archivo JSON.
