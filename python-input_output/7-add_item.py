@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Script that adds command-line arguments to a list and saves them to a file."""
 
+
 import sys
 import os
 
