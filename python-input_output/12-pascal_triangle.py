@@ -21,7 +21,9 @@ def pascal_triangle(n):
         new_row = [1]  # Cada nueva fila comienza con 1.
 
         for j in range(len(previous_row) - 1):
-            new_row.append(previous_row[j] + previous_row[j + 1])  # Sumamos los dos valores superiores.
+            new_row.append(
+                previous_row[j] + previous_row[j + 1]
+            )  # Suma los valores superiores.
 
         new_row.append(1)  # Terminamos cada fila con 1.
         triangle.append(new_row)  # Agregamos la nueva fila al triángulo.
