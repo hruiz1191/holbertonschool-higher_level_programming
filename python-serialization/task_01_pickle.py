@@ -36,7 +36,6 @@ class CustomObject:
     def serialize(self, filename):
         """
         Serializes the object and saves it to a file.
-
         Args:
             filename (str): The filename to store the serialized object.
         Returns:
@@ -52,7 +51,6 @@ class CustomObject:
     def deserialize(cls, filename):
         """
         Loads a serialized object from a file.
-
         Args:
             filename (str): The filename containing the serialized object.
         Returns:
@@ -60,7 +58,12 @@ class CustomObject:
         """
         try:
             with open(filename, 'rb') as file:
-                return pickle.load(file)
-        except (OSError, IOError, pickle.PickleError) as e:
-            print(f"Error loading file: {e}")
+                if file.read(1):  # Verifica si el archivo tiene contenido
+                    file.seek(0)  # Regresa al inicio para leer con pickle
+                    return pickle.load(file)
+                else:
+                    print(f"Error: The file '{filename}' is empty.")
+                    return None
+        except (OSError, IOError, pickle.PickleError, EOFError) as e:
+            print(f"Error loading file '{filename}': {e}")
             return None
