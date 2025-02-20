@@ -12,7 +12,7 @@ def fetch_and_print_posts():
     url = "https://jsonplaceholder.typicode.com/posts"  # URL de la API
     response = requests.get(url)  # Realiza la solicitud GET
 
-    print("Status Code:", response.status_code)  # Muestra el código de estado
+    print("Status Code:", response.status_code)  # Muestra el código
 
     if response.status_code == 200:  # Si la solicitud es exitosa (200 OK)
         data = response.json()  # Convierte la respuesta en un objeto JSON
