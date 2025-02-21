@@ -1,10 +1,11 @@
+#!/usr/bin/python3
 """Developing a simple API using Python with the http.server module"""
 import http.server
 import json
 
 
 class RequestHandler(http.server.BaseHTTPRequestHandler):
-    """Sub class of the BaseHTTPRequestHandeler class"""
+    """Sub class of the BaseHTTPRequestHandler class"""
 
     def do_GET(self):
         if self.path == "/":
@@ -30,17 +31,17 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
 
         elif self.path == "/status":
             self.send_response(200)
-            self.send_header("Content-type", "application/json")  
+            self.send_header("Content-type", "application/json")
             self.end_headers()
-            self.wfile.write(json.dumps({"status": "OK"}).encode("utf-8"))  
+            status_response = {"status": "OK"}
+            self.wfile.write(json.dumps(status_response).encode("utf-8"))
 
         else:
             self.send_response(404)
-            self.send_header("Content-type", "application/json")  
+            self.send_header("Content-type", "application/json")
             self.end_headers()
-            error_message = {"error": "Endpoint not found"}  
+            error_message = {"error": "Endpoint not found"}
             self.wfile.write(json.dumps(error_message).encode("utf-8"))
-
 
 
 PORT = 8000
