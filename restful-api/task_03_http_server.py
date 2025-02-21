@@ -31,16 +31,16 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
 
         elif self.path == "/status":
             self.send_response(200)
-            self.send_header("Content-type", "application/json")
+            self.send_header("Content-type", "application/json")  # JSON
             self.end_headers()
-            status_response = {"status": "OK"}
+            status_response = {"status": "OK"}  # JSON con clave "status"
             self.wfile.write(json.dumps(status_response).encode("utf-8"))
 
         else:
             self.send_response(404)
-            self.send_header("Content-type", "application/json")
+            self.send_header("Content-type", "application/json")  # JSON
             self.end_headers()
-            error_message = {"error": "Endpoint not found"}
+            error_message = {"error": "Endpoint not found"}  #JSON con clave "error"
             self.wfile.write(json.dumps(error_message).encode("utf-8"))
 
 
