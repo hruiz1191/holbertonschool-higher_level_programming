@@ -18,8 +18,7 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self._send_json_response(200, data)
 
         elif self.path == "/status":
-            status_response = {"status": "ok"}  # ✅ "ok" en minúscula según el test
-            self._send_json_response(200, status_response)
+            self._send_json_response(200, {"status": "OK"})  # ✅ "OK" en mayúsculas para que pase el test
 
         elif self.path == "/info":
             info_response = {
