@@ -1,4 +1,4 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
+rom http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 class SimpleAPIHandler(BaseHTTPRequestHandler):
@@ -20,7 +20,7 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write("OK".encode())
         else:
-            self.send_error(404, "Endpoint not found")
+            self.send_error(404, "Not Found")
 
 def run_server(port=8000):
     server_address = ('', port)
