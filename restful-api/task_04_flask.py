@@ -1,59 +1,63 @@
 #!/usr/bin/python3
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
+"""Developing a simple API using Flask"""
+from flask import Flask, jsonify, request
 
+app = Flask(__name__)
 
-class MyHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/data':
-            data = {
-                "name": "John",
-                "age": 30,
-                "city": "New York"
-            }
-            self.send_response(200)
-            self.send_header('content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(data).encode('utf-8'))
+# Base de datos en memoria (diccionario)
+users = {
+    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
+    "john": {"username": "john", "name": "John", "age": 30, "city": "New York"},
+}
 
-        elif self.path == '/status':
-            self.send_response(200)
-            self.send_header('content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b"OK")
+# RUTA PRINCIPAL "/"
+@app.route("/", methods=["GET"])
+def home():
+    """Devuelve un mensaje de bienvenida"""
+    return "Welcome to the Flask API!"
 
-        elif self.path == '/info':
-            data = {
-                "version": "1.0",
-                "description": "A simple API built with http.server"
-            }
-            self.send_response(200)
-            self.send_header('content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(data).encode('utf-8'))
+# RUTA "/data" - Devuelve una lista con los nombres de los usuarios
+@app.route("/data", methods=["GET"])
+def get_users():
+    """Devuelve una lista de todos los nombres de usuario en la API"""
+    return jsonify(list(users.keys()))  # Devuelve solo los nombres de usuario
 
-        elif self.path == '/':
-            self.send_response(200)
-            self.send_header('content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(b"Hello, this is a simple API!")
+# RUTA "/status" - Devuelve "OK"
+@app.route("/status", methods=["GET"])
+def status():
+    """Devuelve el estado de la API"""
+    return "OK"
 
-        elif self.path == '/favicon.ico':
-            self.send_response(204)
-            self.end_headers()
+# RUTA "/users/<username>" - Devuelve los datos de un usuario específico
+@app.route("/users/<username>", methods=["GET"])
+def get_user(username):
+    """Devuelve la información del usuario si existe"""
+    if username in users:
+        return jsonify(users[username])  # Devuelve la información del usuario
+    else:
+        return jsonify({"error": "User not found"}), 404  # Devuelve un error 404
 
-        else:
-            self.send_response(404)
-            self.send_header('content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(b"Endpoint not found")
+# RUTA "/add_user" - Agrega un nuevo usuario a la API (Método POST)
+@app.route("/add_user", methods=["POST"])
+def add_user():
+    """Recibe datos JSON y agrega un nuevo usuario a la API"""
+    data = request.get_json()
 
+    # Validación: verificar si se proporciona un username
+    if "username" not in data:
+        return jsonify({"error": "Username is required"}), 400
 
-def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler):
-    server_address = ('', 8000)
-    httpd = server_class(server_address, handler_class)
-    httpd.serve_forever()
+    username = data["username"]
 
+    # Verificar si el usuario ya existe
+    if username in users:
+        return jsonify({"error": "User already exists"}), 400
 
-if __name__ == '__main__':
-    run(handler_class=MyHandler)
+    # Agregar el usuario a la base de datos
+    users[username] = data
+
+    return jsonify({"message": "User added", "user": data}), 201  # Código 201 -> Creado
+
+# Ejecutar el servidor Flask en puerto 5000
+if __name__ == "__main__":
+    app.run(debug=True)

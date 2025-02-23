@@ -1,1 +1,44 @@
 ./venv/
+# Archivos de entorno virtual
+venv/
+flask_env/
+*.pyc
+__pycache__/
+
+# Archivos de dependencias
+*.log
+*.sqlite3
+*.db
+.env
+*.pyo
+*.pyd
+
+# Configuraciones de Flask y caché
+instance/
+*.bak
+.DS_Store
+*.swp
+*.swo
+
+# Archivos temporales y de caché
+*.tmp
+*.cache
+*.egg-info/
+pip-wheel-metadata/
+pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Archivos de pruebas y servidores locales
+*.sock
+*.pid
+*.log
+nohup.out
+
+# Configuración de editores y entornos de desarrollo
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
