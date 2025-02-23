@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""Developing a simple API using Flask"""
 from flask import Flask, jsonify, request
 
+# Inicializa la aplicación Flask
 app = Flask(__name__)
 
 # Base de datos en memoria (diccionario)
@@ -10,54 +10,55 @@ users = {
     "john": {"username": "john", "name": "John", "age": 30, "city": "New York"},
 }
 
-# RUTA PRINCIPAL "/"
+# Ruta raíz "/"
 @app.route("/", methods=["GET"])
 def home():
     """Devuelve un mensaje de bienvenida"""
     return "Welcome to the Flask API!"
 
-# RUTA "/data" - Devuelve una lista con los nombres de los usuarios
+# Ruta "/data" - Devuelve la lista de usuarios
 @app.route("/data", methods=["GET"])
 def get_users():
-    """Devuelve una lista de todos los nombres de usuario en la API"""
-    return jsonify(list(users.keys()))  # Devuelve solo los nombres de usuario
+    """Devuelve una lista con todos los nombres de usuario"""
+    return jsonify(list(users.keys()))
 
-# RUTA "/status" - Devuelve "OK"
+# Ruta "/status" - Devuelve "OK"
 @app.route("/status", methods=["GET"])
 def status():
     """Devuelve el estado de la API"""
     return "OK"
 
-# RUTA "/users/<username>" - Devuelve los datos de un usuario específico
+# Ruta "/users/<username>" - Obtiene información de un usuario
 @app.route("/users/<username>", methods=["GET"])
 def get_user(username):
     """Devuelve la información del usuario si existe"""
-    if username in users:
-        return jsonify(users[username])  # Devuelve la información del usuario
+    user = users.get(username)
+    if user:
+        return jsonify(user)
     else:
-        return jsonify({"error": "User not found"}), 404  # Devuelve un error 404
+        return jsonify({"error": "User not found"}), 404
 
-# RUTA "/add_user" - Agrega un nuevo usuario a la API (Método POST)
+# Ruta "/add_user" - Agregar un nuevo usuario con método POST
 @app.route("/add_user", methods=["POST"])
 def add_user():
-    """Recibe datos JSON y agrega un nuevo usuario a la API"""
-    data = request.get_json()
+    """Agrega un nuevo usuario a la base de datos"""
+    new_user = request.json  # Obtiene el JSON enviado en la solicitud
+    username = new_user.get("username")
 
-    # Validación: verificar si se proporciona un username
-    if "username" not in data:
+    # Validar si se envió un username
+    if not username:
         return jsonify({"error": "Username is required"}), 400
-
-    username = data["username"]
 
     # Verificar si el usuario ya existe
     if username in users:
         return jsonify({"error": "User already exists"}), 400
 
-    # Agregar el usuario a la base de datos
-    users[username] = data
+    # Agregar el nuevo usuario
+    users[username] = new_user
 
-    return jsonify({"message": "User added", "user": data}), 201  # Código 201 -> Creado
+    return jsonify({"message": "User added", "user": new_user}), 201
 
-# Ejecutar el servidor Flask en puerto 5000
+# Iniciar el servidor Flask en el puerto 5000
 if __name__ == "__main__":
     app.run(debug=True)
+
