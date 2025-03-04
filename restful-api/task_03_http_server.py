@@ -12,7 +12,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 "city": "New York"
             }
             self.send_response(200)
-            self.send_header('content-type', 'application/json')
+            self.send_header('content-type', 'application/json') 
             self.end_headers()
             self.wfile.write(json.dumps(data).encode('utf-8'))
 
