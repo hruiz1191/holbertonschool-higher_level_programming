@@ -1,23 +1,37 @@
 #!/usr/bin/python3
-"""Fetches states from dtatbase"""
-import sys
-from model_state import Base, State
+"""
+Write a script that adds the State object “Louisiana”
+to the database hbtn_0e_6_usa
+
+
+"""
+from sys import argv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from model_state import State
 
+if __name__ == '__main__':
 
-if __name__ == "__main__":
-    """create engine"""
-    if len(sys.argv) != 4:
-        print("wrong")
-    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'
-                           .format(sys.argv[1], sys.argv[2], sys.argv[3]),
-                           pool_pre_ping=True)
-    Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    s1 = State(name="Louisiana")
-    session.add(s1)
-    session.commit()
-    print(f"{s1.id}")
+    # Collect data from argv arguments
+    username = argv[1]
+    passwd = argv[2]
+    db = argv[3]
+
+    # Make connection
+    engine = create_engine(
+        f'mysql+mysqldb://{username}:{passwd}@localhost:3306/{db}'
+        )
+
+    # Make 'cursor'
+    session = sessionmaker(bind=engine)
+    session = session()
+
+    new_state = State(name='Louisiana')
+
+    session.add(new_state)
+    session.commit()  # Commit the transaction
+
+    states = session.query(State).filter(State.name == "Louisiana").all()
+    [print(f"{state.id}") for state in states]
+
     session.close()
