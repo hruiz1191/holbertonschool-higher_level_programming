@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Lists states"""
+"""Lists states rask 2"""
 
 import MySQLdb
 from sys import argv
