@@ -1,10 +1,8 @@
-// Seleccionar el div con id "red_header"
-const redHeader = document.querySelector('#red_header');
-
-// Seleccionar el elemento <header>
-const header = document.querySelector('header');
-
-// Escuchar el evento click en el div
-redHeader.addEventListener('click', function() {
-  header.classList.add('red');
-});
+addEventListener("DOMContentLoaded", function () {
+    const redHeaderElement = document.querySelector("#red_header");
+  
+    function elementAddClass() {
+      document.querySelector("header").classList.add("red");
+    }
+    redHeaderElement.addEventListener("click", elementAddClass);
+  });
